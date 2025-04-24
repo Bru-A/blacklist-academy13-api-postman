@@ -1,0 +1,15 @@
+{
+	"id": "1d5e6bc0-3e34-414f-819f-a596768221e6",
+	"values": [
+		{
+			"key": "MsgTokenReturn",
+			"value": "No token provided.",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2025-04-24T12:55:45.848Z",
+	"_postman_exported_using": "Postman/11.42.4-250423-2337"
+}

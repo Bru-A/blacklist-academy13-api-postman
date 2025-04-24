@@ -1,0 +1,1983 @@
+{
+	"info": {
+		"_postman_id": "3cddfabd-1964-4d8a-a9f1-b0606cbea91a",
+		"name": "BlacklistAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35967502"
+	},
+	"item": [
+		{
+			"name": "CreateUser",
+			"item": [
+				{
+					"name": "Login admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"\r",
+									"pm.environment.set(\"tokenAdmin\", pm.variables.replaceIn(JSON.parse(responseBody).token));\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mail\": \"{{mailAdmin}}\",\r\n  \"password\": \"{{passAdmin}}\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/login",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(201);});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function firstName () {\r",
+									" \r",
+									"    let firstName = [\"Anderson\", \"Maria\", \"Paulo\", \"Joao\", \"Helena\", \"Elisa\", \"Denilson\", \"Flavia\", \"Silvio\", \"Margarida\", \"Joana\", \"Thiago\", \"Ana\", \"Patricia\", \"Lucas\", \"Caio\", \"Lurdes\", \"Cecilia\", \"Michael\"]\r",
+									" \r",
+									"    let randomItem = firstName[Math.floor(Math.random() * firstName.length)];\r",
+									"    return randomItem\r",
+									"}\r",
+									" \r",
+									"pm.environment.set(\"FirstName\", firstName());\r",
+									" \r",
+									" \r",
+									"function lastName () {\r",
+									" \r",
+									"    let lastName = [\"Alves Almeida\", \"Silva Santos\", \"Ferreia Silva\", \"Lousada Andrade\", \"Pereira Souza\", \"Francisco Francelino\", \"Miranda Oliveira\", \"Martins Leiria\", \"Moureira Ruiz\", \"Florencio Filho\", \"Guimarães França\", \"Loureira\", \"Caetano Lima\", \"Moura\", \"Freitas\", \"Jardins\", \"Alpes\", \"Jackson Dias\"]\r",
+									" \r",
+									"    let randomItem = lastName[Math.floor(Math.random() * lastName.length)];\r",
+									"    return randomItem\r",
+									"}\r",
+									" \r",
+									"pm.environment.set(\"LastName\", lastName());\r",
+									" \r",
+									"pm.environment.set(\"FullName\", pm.environment.get(\"FirstName\") + \" \" + pm.environment.get(\"LastName\"));\r",
+									" \r",
+									" //Email\r",
+									"function providerMail () {\r",
+									" \r",
+									"    let providerMail = [\"@yahoo.com.br\", \"@gmail.com\", \"@bol.com\", \"@aol.com.br\", \"@ig.com.br\", \"@outlook.com\", \"@hotmail.com\"]\r",
+									" \r",
+									"    let randomItem = providerMail[Math.floor(Math.random() * providerMail.length)];\r",
+									"    return randomItem\r",
+									"}\r",
+									" \r",
+									"pm.environment.set(\"ProviderMail\", providerMail());\r",
+									" \r",
+									"pm.environment.set(\"Mail\", pm.environment.get(\"FirstName\") + \"_\" + pm.variables.replaceIn('{{$guid}}') + pm.environment.get (\"ProviderMail\"))\r",
+									" \r",
+									" \r",
+									" \r",
+									"function generateCPF() {\r",
+									"    let num = Math.floor(Math.random() * 999999999);\r",
+									"    let cpf = num.toString().padStart(9, '0');\r",
+									"    cpf += calcularDigito(cpf);\r",
+									"    cpf += calcularDigito(cpf);\r",
+									"    return cpf;\r",
+									"}\r",
+									"function calcularDigito(cpf) {\r",
+									"    let soma = 0;\r",
+									"    for (let i = 0; i < cpf.length; i++) {\r",
+									"        soma += parseInt(cpf[i]) * ((cpf.length + 1) - i);\r",
+									"    }\r",
+									"    let resto = (soma * 10) % 11;\r",
+									"    return (resto > 9) ? '0' : resto.toString();\r",
+									"}\r",
+									"// Definir a variável no Postman\r",
+									"pm.environment.set(\"CPF\", generateCPF());\r",
+									" \r",
+									"// Função para gerar um ID único de 24 caracteres"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fullName\": \"{{FullName}}\",\r\n  \"mail\": \"{{Mail}}\",\r\n  \"accessProfile\": \"ADMIN\",\r\n  \"cpf\": \"{{CPF}}\",\r\n  \"password\": \"{{passwordUser}}\",\r\n  \"confirmPassword\": \"{{passwordUser}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/user/",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"\r",
+									"pm.environment.set(\"tokenUser\", pm.variables.replaceIn(JSON.parse(responseBody).token));\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mail\": \"{{Mail}}\",\r\n  \"password\": \"{{passwordUser}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/login",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Return users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"\r",
+									"pm.environment.set(\"tokenAdmin\", pm.variables.replaceIn(JSON.parse(responseBody).token));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/user/",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CostCenter",
+			"item": [
+				{
+					"name": "Centro de Custo",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "Contagem de Empresa",
+			"item": [
+				{
+					"name": "Login admin Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"\r",
+									"pm.environment.set(\"tokenAdmin\", pm.variables.replaceIn(JSON.parse(responseBody).token));\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"mail\": \"{{mailAdmin}}\",\r\n  \"password\": \"{{passAdmin}}\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/login",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Company Count - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/company/count",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"company",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Company Count - 403",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLBase}}/api/company/count",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"api",
+								"company",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Company Count - 404",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLBase}}/api/company/count/invalidRoute",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"api",
+								"company",
+								"count",
+								"invalidRoute"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Company Count - 500",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(500);});\r",
+									"\r",
+									"pm.test(\"Erro Interno do Servidor\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cast to ObjectId failed for value\");\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/company/cou",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"company",
+								"cou"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Criar Centro de Custo",
+			"item": [
+				{
+					"name": "Create Board - 201",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(201);});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function boardName() {\r",
+									"    let boardName = [\"DiretoriaUm\", \"DiretoriaDois\", \"DiretoriTres\", \"Diretoriquatro\", \"DiretoriCinco\", \"DiretoriaSeis\", \"DiretoriaSete\", \"DiretoriaOito\", \"DiretoriaNove\", \"DiretoriaDez\", \"DiretoriaOnze\", \"DiretoriaDoze\", \"DiretoriaTreze\", \"DiretoriaQuatorze\", \"DiretoriaQuinze\", \"DiretoriaDezesseis\", \"DiretoriaDezessete\"];\r",
+									"    let randomItem = boardName[Math.floor(Math.random() * boardName.length)];\r",
+									"    return randomItem;\r",
+									"}\r",
+									" \r",
+									"// Gera um GUID e remove hifens e números\r",
+									"function cleanGuid() {\r",
+									"    return pm.variables.replaceIn('{{$guid}}')\r",
+									"        .replace(/-/g, '')       // Remove hifens\r",
+									"        .replace(/[0-9]/g, '');  // Remove números\r",
+									"}\r",
+									" \r",
+									"const name = boardName();\r",
+									"const guid = cleanGuid().substring(0, 8); // Pega apenas os primeiros 8 caracteres\r",
+									" \r",
+									"pm.environment.set(\"BoardName\", name);\r",
+									"pm.environment.set(\"BoardNameComplete\", name + guid);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"boardName\": \"{{BoardNameComplete}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/board",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Board - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/board",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"board"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cost Center - 201",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(201);});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function costCenterName() {\r",
+									"    let costCenterName = [\"CCUm\", \"CCDois\", \"DiretoriTres\", \"Diretoriquatro\", \"DiretoriCinco\", \"CCSeis\", \"CCSete\", \"CCOito\", \"CCNove\", \"CCDez\", \"CCOnze\", \"CCDoze\", \"CCTreze\", \"CCQuatorze\", \"CCQuinze\", \"CCDezesseis\", \"CCDezessete\"];\r",
+									"    let randomItem = costCenterName[Math.floor(Math.random() * costCenterName.length)];\r",
+									"    return randomItem;\r",
+									"}\r",
+									" \r",
+									"// Gera um GUID e remove hifens e números\r",
+									"function cleanGuid() {\r",
+									"    return pm.variables.replaceIn('{{$guid}}')\r",
+									"        .replace(/-/g, '')       // Remove hifens\r",
+									"        .replace(/[0-9]/g, '');  // Remove números\r",
+									"}\r",
+									" \r",
+									"const name = costCenterName();\r",
+									"const guid = cleanGuid().substring(0, 8); // Pega apenas os primeiros 8 caracteres\r",
+									" \r",
+									"pm.environment.set(\"CostCenterName\", name);\r",
+									"pm.environment.set(\"CostCenterNameComplete\", name + guid);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"{{CostCenterNameComplete}}\",\r\n  \"boardId\": \"67f941d0360a6bf52db35059\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cost Center - 409",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(409);});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Error Não é possível salvar esse registro. Centro de custos já cadastrado no sistema.\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Não é possível salvar esse registro. Centro de custos já cadastrado no sistema.\");\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"xxxxxxxxxxsss\",\r\n  \"boardId\": \"67f941d0360a6bf52db35059\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cost Center - 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(400);});\r",
+									"\r",
+									"pm.test(\"Error O campo 'centro de custos' é obrigatório.\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"O campo 'centro de custos' é obrigatório.\");\r",
+									"})\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"\",\r\n  \"boardId\": \"67f941d0360a6bf52db35059\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cost Center - 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(403);});\r",
+									"\r",
+									"pm.test(\"Error No token provided.\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"No token provided.\");\r",
+									"})\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"{{CostCenterNameComplete}}\",\r\n  \"boardId\": \"67f941d0360a6bf52db35059\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cost Center - 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(404);});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"costCenterName\": \"{{CostCenterNameComplete}}\",\r\n  \"boardId\": \"67f941d0360a6bf52db35059\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter//123456789",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter",
+								"",
+								"123456789"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contar Centro de Custo",
+			"item": [
+				{
+					"name": "costCenter Count - Sucess - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter/count",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "costCenter Count  - 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem: No Token Provided\", function()\r",
+									"{\r",
+									"var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errors).to.include(\"No token provided.\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter/count",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "costCenter Count - Sucess - 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(404);});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter/count/1234",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter",
+								"count",
+								"1234"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "costCenter Count - Sucess - 500",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(500);});\r",
+									"\r",
+									"pm.test(\"Erro Interno do Servidor\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cast to ObjectId failed for value\");\r",
+									"})\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter/cou",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter",
+								"cou"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Listar Centro de Custo",
+			"item": [
+				{
+					"name": "Retrieve Cost Center - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"\r",
+									"pm.test(\"Resposta é JSON válida\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Lista de Centros de Custo não está vazia\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.be.above(0);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Cada item possui ID e Nome\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    jsonData.forEach(item => {\r",
+									"        pm.expect(item).to.have.property(\"_id\");\r",
+									"        pm.expect(item).to.have.property(\"costCenterName\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Cost Center - 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste 403\", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Validar mensagem: No Token Provided\", function()\r",
+									"{\r",
+									"var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.errors).to.include(\"No token provided.\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Cost Center - 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(404);});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenterx",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenterx"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Cost Center - 500",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(500);});\r",
+									"\r",
+									"pm.test(\"Erro Interno do Servidor\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cast to ObjectId failed for value\");\r",
+									"})\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter/123456789",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter",
+								"123456789"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pesquisar Centro de Custo",
+			"item": [
+				{
+					"name": "Search Cost Center - 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URLBase}}/costCenter/680a2f49360a6bf52dc2bf38",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"costCenter",
+								"680a2f49360a6bf52dc2bf38"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Cost Center - 403",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLBase}}/api/costCenter/67b51e0dc106476a95e76410",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"api",
+								"costCenter",
+								"67b51e0dc106476a95e76410"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Cost Center - 404",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLBase}}/api/costCenter/67b51e0dc106476a95e76123",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"api",
+								"costCenter",
+								"67b51e0dc106476a95e76123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Cost Center - 500",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URLBase}}/api/costCenter/67b51e0dc106476a95e764100",
+							"host": [
+								"{{URLBase}}"
+							],
+							"path": [
+								"api",
+								"costCenter",
+								"67b51e0dc106476a95e764100"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
