@@ -16,7 +16,12 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									" \r",
 									"\r",
 									"pm.environment.set(\"tokenAdmin\", pm.variables.replaceIn(JSON.parse(responseBody).token));\r",
 									"\r",
@@ -62,7 +67,12 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(201);});\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"});\r",
+									" \r",
 									"\r",
 									""
 								],
@@ -190,7 +200,12 @@
 							"script": {
 								"exec": [
 									"\r",
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									" \r",
 									"\r",
 									"pm.environment.set(\"tokenUser\", pm.variables.replaceIn(JSON.parse(responseBody).token));\r",
 									"\r",
@@ -253,9 +268,13 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"\r",
-									"pm.environment.set(\"tokenAdmin\", pm.variables.replaceIn(JSON.parse(responseBody).token));"
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"});\r",
+									"\r",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -309,15 +328,6 @@
 						}
 					},
 					"response": []
-				}
-			]
-		},
-		{
-			"name": "CostCenter",
-			"item": [
-				{
-					"name": "Centro de Custo",
-					"item": []
 				}
 			]
 		},
@@ -451,9 +461,69 @@
 				},
 				{
 					"name": "Company Count - 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(403);\r",
+									"\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
 					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{URLBase}}/api/company/count",
 							"host": [
@@ -470,9 +540,69 @@
 				},
 				{
 					"name": "Company Count - 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(404);\r",
+									"\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
 					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{URLBase}}/api/company/count/invalidRoute",
 							"host": [
@@ -495,7 +625,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(500);});\r",
+									"pm.test(\"Status code is 500\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(500);\r",
+									"\r",
+									"});\r",
 									"\r",
 									"pm.test(\"Erro Interno do Servidor\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"Cast to ObjectId failed for value\");\r",
@@ -576,7 +710,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(201);});\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"});\r",
 									"\r",
 									"\r",
 									"\r",
@@ -748,7 +886,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(201);});\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(201);\r",
+									"\r",
+									"});\r",
 									"\r",
 									"\r",
 									"\r",
@@ -847,7 +989,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(409);});\r",
+									"pm.test(\"Status code is 409\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(409);\r",
+									"\r",
+									"});\r",
 									"\r",
 									"\r",
 									"pm.test(\"Error Não é possível salvar esse registro. Centro de custos já cadastrado no sistema.\", function () {\r",
@@ -932,7 +1078,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(400);});\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(400);\r",
+									"\r",
+									"});\r",
 									"\r",
 									"pm.test(\"Error O campo 'centro de custos' é obrigatório.\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"O campo 'centro de custos' é obrigatório.\");\r",
@@ -1019,7 +1169,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(403);});\r",
+									"pm.test(\"Status code is 403\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(403);\r",
+									"\r",
+									"});\r",
 									"\r",
 									"pm.test(\"Error No token provided.\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"No token provided.\");\r",
@@ -1106,7 +1260,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(404);});\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(404);\r",
+									"\r",
+									"});\r",
 									"\r",
 									"\r",
 									"\r",
@@ -1436,7 +1594,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(500);});\r",
+									"pm.test(\"Status code is 500\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(500);\r",
+									"\r",
+									"});\r",
 									"\r",
 									"pm.test(\"Erro Interno do Servidor\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"Cast to ObjectId failed for value\");\r",
@@ -1519,25 +1681,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(200);});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
 									"\r",
-									"pm.test(\"Resposta é JSON válida\", function () {\r",
-									"    pm.response.to.be.json;\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
 									"});\r",
-									"\r",
-									"pm.test(\"Lista de Centros de Custo não está vazia\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.length).to.be.above(0);\r",
-									"});\r",
-									"\r",
-									"pm.test(\"Cada item possui ID e Nome\", function () {\r",
-									"    var jsonData = pm.response.json();\r",
-									"    jsonData.forEach(item => {\r",
-									"        pm.expect(item).to.have.property(\"_id\");\r",
-									"        pm.expect(item).to.have.property(\"costCenterName\");\r",
-									"    });\r",
-									"});\r",
-									"\r",
 									""
 								],
 								"type": "text/javascript",
@@ -1614,11 +1762,6 @@
 									"    \r",
 									"});\r",
 									"\r",
-									"pm.test(\"Validar mensagem: No Token Provided\", function()\r",
-									"{\r",
-									"var jsonData = pm.response.json();\r",
-									"    pm.expect(jsonData.errors).to.include(\"No token provided.\");\r",
-									"});\r",
 									"\r",
 									"\r",
 									"\r",
@@ -1693,7 +1836,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(404);});\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(404);\r",
+									"\r",
+									"});\r",
 									"\r",
 									"\r",
 									"\r",
@@ -1768,7 +1915,11 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status teste\", ()=>{pm.response.to.have.status(500);});\r",
+									"pm.test(\"Status code is 500\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(500);\r",
+									"\r",
+									"});\r",
 									"\r",
 									"pm.test(\"Erro Interno do Servidor\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"Cast to ObjectId failed for value\");\r",
@@ -1922,9 +2073,69 @@
 				},
 				{
 					"name": "Search Cost Center - 403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(403);\r",
+									"\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
 					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{URLBase}}/api/costCenter/67b51e0dc106476a95e76410",
 							"host": [
@@ -1941,16 +2152,80 @@
 				},
 				{
 					"name": "Search Cost Center - 404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(404);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Mensagem de erro\", () => {\r",
+									"    pm.expect(pm.response.json().msg).to.eql(\"Não foi possível encontrar o departamento com o id especificado\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
 					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{URLBase}}/api/costCenter/67b51e0dc106476a95e76123",
+							"raw": "{{URLBase}}/costCenter/67b51e0dc106476a95e76123",
 							"host": [
 								"{{URLBase}}"
 							],
 							"path": [
-								"api",
 								"costCenter",
 								"67b51e0dc106476a95e76123"
 							]
@@ -1960,16 +2235,76 @@
 				},
 				{
 					"name": "Search Cost Center - 500",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 500\", function () {\r",
+									"\r",
+									"    pm.response.to.have.status(500);\r",
+									"\r",
+									"});\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
 					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "{{tokenAdmin}}",
+									"type": "string"
+								},
+								{
+									"key": "in",
+									"value": "query",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "token",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenAdmin}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{URLBase}}/api/costCenter/67b51e0dc106476a95e764100",
+							"raw": "{{URLBase}}/costCenter/67b51e0dc106476a95e764100",
 							"host": [
 								"{{URLBase}}"
 							],
 							"path": [
-								"api",
 								"costCenter",
 								"67b51e0dc106476a95e764100"
 							]
